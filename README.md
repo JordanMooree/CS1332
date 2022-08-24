@@ -1,22 +1,21 @@
 # CS1332
-Georgia Tech CS1332 Data Structure &amp; Algorithms (Spring 2019)
 
-__HW 1:__ ArrayList
+- [ ] **HW 1:** ArrayList
 
-__HW 2:__ Circular Singly-Linked List
+- [ ] **HW 2:** Circular Singly-Linked List
 
-__HW 3:__ Stacks & Queues
+- [ ] **HW 3:** Stacks & Queues
 
-__HW 4:__ Binary Search Trees
+- [x] **HW 4:** Binary Search Trees
 
-__HW 5:__ MaxHeaps
+- [ ] **HW 5:** MaxHeaps
 
-__HW 6:__ HashMaps
+- [ ] **HW 6:** HashMaps
 
-__HW 7:__ AVL Trees
+- [ ] **HW 7:** AVL Trees
 
-__HW 8:__ Sorting Algorithms
+- [ ] **HW 8:** Sorting Algorithms
 
-__HW 9:__ Pattern Matching
+- [ ] **HW 9:** Pattern Matching
 
-__HW 10:__ Graph Algorithms
+- [ ] **HW 10:** Graph Algorithms

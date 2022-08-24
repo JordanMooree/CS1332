@@ -26,10 +26,10 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testAdd() {
         /*
-                      2
-                     / \
-                    1   3
-        */
+         * 2
+         * / \
+         * 1 3
+         */
         bst.add(2);
         bst.add(1);
         bst.add(3);
@@ -43,14 +43,14 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testRemove() {
         /*
-                      2                    2
-                     / \                  / \
-                    1   3                1   4
-                         \     ->             \
-                          4                    5
-                           \
-                            5
-        */
+         * 2 2
+         * / \ / \
+         * 1 3 1 4
+         * \ -> \
+         * 4 5
+         * \
+         * 5
+         */
         bst.add(2);
         bst.add(1);
         bst.add(3);
@@ -69,14 +69,14 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testGetContains() {
         /*
-                       24
-                    /      \
-                   1        94
-                    \      /
-                     7    58
-                      \    \
-                      12    73
-        */
+         * 24
+         * / \
+         * 1 94
+         * \ /
+         * 7 58
+         * \ \
+         * 12 73
+         */
         bst.add(24);
         bst.add(1);
         bst.add(7);
@@ -98,16 +98,16 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testGetDifferent() {
         /*
-                       24
-                    /      \
-                   1        94
-                    \      /
-                     7    58
-                      \    \
-                      12    73
-        */
+         * 24
+         * / \
+         * 1 94
+         * \ /
+         * 7 58
+         * \ \
+         * 12 73
+         */
 
-        Integer testingInteger = new Integer(12);
+        Integer testingInteger = Integer.valueOf(12);
 
         bst.add(24);
         bst.add(1);
@@ -119,22 +119,22 @@ public class BSTStudentTests {
 
         // We want to make sure the data we retrieve is the one from the tree,
         // not the data that was passed in.
-        assertSame(testingInteger, bst.get(new Integer(12)));
+        assertSame(testingInteger, bst.get(Integer.valueOf(12)));
     }
 
     @Test(timeout = TIMEOUT)
     public void testLevelorder() {
         /*
-                       24
-                    /      \
-                   1        94
-                    \      /
-                     7    58
-                      \    \
-                      12    73
-                            / \
-                           68  77
-        */
+         * 24
+         * / \
+         * 1 94
+         * \ /
+         * 7 58
+         * \ \
+         * 12 73
+         * / \
+         * 68 77
+         */
 
         bst.add(24);
         bst.add(1);
@@ -164,16 +164,16 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testPreorder() {
         /*
-                       24
-                    /      \
-                   1        94
-                    \      /
-                     7    58
-                      \    \
-                      12    73
-                            / \
-                           68  77
-        */
+         * 24
+         * / \
+         * 1 94
+         * \ /
+         * 7 58
+         * \ \
+         * 12 73
+         * / \
+         * 68 77
+         */
 
         bst.add(24);
         bst.add(1);
@@ -203,16 +203,16 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testInorder() {
         /*
-                       24
-                    /      \
-                   1        94
-                    \      /
-                     7    58
-                      \    \
-                      12    73
-                            / \
-                           68  77
-        */
+         * 24
+         * / \
+         * 1 94
+         * \ /
+         * 7 58
+         * \ \
+         * 12 73
+         * / \
+         * 68 77
+         */
 
         bst.add(24);
         bst.add(1);
@@ -242,16 +242,16 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testPostorder() {
         /*
-                       24
-                    /      \
-                   1        94
-                    \      /
-                     7    58
-                      \    \
-                      12    73
-                            / \
-                           68  77
-        */
+         * 24
+         * / \
+         * 1 94
+         * \ /
+         * 7 58
+         * \ \
+         * 12 73
+         * / \
+         * 68 77
+         */
 
         bst.add(24);
         bst.add(1);
@@ -281,10 +281,10 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testIsBST() {
         /*
-                    50
-                  /    \   should return false
-                75      25
-        */
+         * 50
+         * / \ should return false
+         * 75 25
+         */
 
         BSTNode<Integer> root = new BSTNode<>(50);
         root.setLeft(new BSTNode<>(75));
@@ -293,10 +293,10 @@ public class BSTStudentTests {
         assertEquals(false, BST.isBST(root));
 
         /*
-                    50
-                  /    \   should return true
-                25      75
-        */
+         * 50
+         * / \ should return true
+         * 25 75
+         */
 
         root = new BSTNode<>(50);
         root.setLeft(new BSTNode<>(25));
@@ -308,12 +308,12 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testConstructorAndClear() {
         /*
-                     24
-                    /
-                   1
-                    \
-                     7
-        */
+         * 24
+         * /
+         * 1
+         * \
+         * 7
+         */
 
         List<Integer> toAdd = new ArrayList<>();
         toAdd.add(24);
@@ -333,12 +333,12 @@ public class BSTStudentTests {
     @Test(timeout = TIMEOUT)
     public void testHeight() {
         /*
-                     24
-                    /
-                   1
-                    \
-                     7
-        */
+         * 24
+         * /
+         * 1
+         * \
+         * 7
+         */
 
         bst.add(24);
         bst.add(1);

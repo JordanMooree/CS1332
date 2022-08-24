@@ -39,13 +39,11 @@ public class BST<T extends Comparable<? super T>> {
      * @throws IllegalArgumentException if data or any element in data is null
      */
     public BST(Collection<T> data) {
-        if (data == null || data.contains(null)) {
+        if (data == null || data.contains(data))
             throw new IllegalArgumentException("Data can't be null");
-        }
         size = 0;
-        for (T tmp : data) {
-            add(tmp);
-        }
+        for (T item : data)
+            add(item);
     }
 
     /**
@@ -61,38 +59,35 @@ public class BST<T extends Comparable<? super T>> {
      * @param data the data to be added
      */
     public void add(T data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Data can't be null");
-        }
-        if (root == null) {
+        if (data == null)
+            throw new IllegalArgumentException("Data is null");
+        if (this.root == null) {
             root = new BSTNode<>(data);
             size++;
-        } else {
-            addHelper(data, root);
-        }
+        } else
+            addHelper(root, data);
+
     }
 
     /**
-     * Helper method for add(T data)
-     *
-     * @param data the data to be added
-     * @param node the root of a tree
+     * Helper for adding to the BST.
+     * 
+     * @param root - the parent node
+     * @param data - the data to be added to the BST
      */
-    private void addHelper(T data, BSTNode<T> node) {
+    private void addHelper(BSTNode<T> node, T data) {
         if (data.compareTo(node.getData()) > 0) {
             if (node.getRight() == null) {
                 node.setRight(new BSTNode<>(data));
                 size++;
-            } else {
-                addHelper(data, node.getRight());
-            }
+            } else
+                addHelper(node.getRight(), data);
         } else if (data.compareTo(node.getData()) < 0) {
             if (node.getLeft() == null) {
                 node.setLeft(new BSTNode<>(data));
                 size++;
-            } else {
-                addHelper(data, node.getLeft());
-            }
+            } else
+                addHelper(node.getLeft(), data);
         }
     }
 
@@ -109,62 +104,61 @@ public class BST<T extends Comparable<? super T>> {
      * Should have a running time of O(log n) for a balanced tree, and a worst
      * case of O(n).
      *
-     * @throws IllegalArgumentException if the data is null
+     * @throws IllegalArgumentException         if the data is null
      * @throws java.util.NoSuchElementException if the data is not found
      * @param data the data to remove from the tree.
      * @return the data removed from the tree. Do not return the same data
-     * that was passed in. Return the data that was stored in the tree.
+     *         that was passed in. Return the data that was stored in the tree.
      */
     public T remove(T data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Data can't be null");
-        }
-        BSTNode<T> removed = new BSTNode<>(null);
-        root = removeHelper(data, root, removed);
-        return removed.getData();
+        if (data == null)
+            throw new IllegalArgumentException("Data is null");
+
+        BSTNode<T> removeNode = new BSTNode<>(null);
+        root = removeHelper(data, root, removeNode);
+        return removeNode.getData();
     }
 
     /**
-     * Helper method for remove(T data)
-     *
-     * @param data the data to remove from the tree
-     * @param node the current node
-     * @param removed the node to be removed
-     * @return parent node of node that will get removed
+     * Helper method for removing data from the tree
+     * 
+     * @param data   - the data to remove from the tree
+     * @param node   - Current node
+     * @param remove - the node that needs to be removed
      */
-    private BSTNode<T> removeHelper(T data,
-                                    BSTNode<T> node, BSTNode<T> removed) {
-        if (node == null) {
+    private BSTNode<T> removeHelper(T data, BSTNode<T> node, BSTNode<T> removeNode) {
+        if (node == null)
             throw new NoSuchElementException("Data is not found");
-        } else {
-            int value = data.compareTo(node.getData());
-            if (value > 0) {
-                node.setRight(removeHelper(data, node.getRight(), removed));
-            } else if (value < 0) {
-                node.setLeft(removeHelper(data, node.getLeft(), removed));
-            } else {
-                removed.setData(node.getData());
+        else {
+            int val = data.compareTo(node.getData());
+            if (val > 0)
+                node.setRight(removeHelper(data, node.getRight(), removeNode));
+            else if (val < 0)
+                node.setLeft(removeHelper(data, node.getLeft(), removeNode));
+            else {
+                removeNode.setData(node.getData());
                 size--;
-                if (node.getRight() == null) {
+                if (node.getRight() == null)
                     return node.getLeft();
-                } else if (node.getLeft() == null) {
+                else if (node.getLeft() == null)
                     return node.getRight();
-                } else {
+
+                else {
                     BSTNode<T> child = new BSTNode<>(null);
                     node.setLeft(predecessorHelper(node.getLeft(), child));
                     node.setData(child.getData());
                 }
             }
+            return node;
         }
-        return node;
     }
 
     /**
-     * Helper method for remove()
-     * Finds predecessor node
-     *
-     * @param node the current node
-     * @param child the child of a node that will be removed
+     * Helper method for remove
+     * Find predecessor node
+     * 
+     * @param node  - the current node
+     * @param child - the child of a node that will be removed
      * @return predecessor node of an element that will be removed
      */
     private BSTNode<T> predecessorHelper(BSTNode<T> node, BSTNode<T> child) {
@@ -183,38 +177,33 @@ public class BST<T extends Comparable<? super T>> {
      * Should have a running time of O(log n) for a balanced tree, and a worst
      * case of O(n).
      *
-     * @throws IllegalArgumentException if the data is null
+     * @throws IllegalArgumentException         if the data is null
      * @throws java.util.NoSuchElementException if the data is not found
      * @param data the data to search for in the tree.
      * @return the data in the tree equal to the parameter. Do not return the
-     * same data that was passed in.  Return the data that was stored in the
-     * tree.
+     *         same data that was passed in. Return the data that was stored in the
+     *         tree.
      */
     public T get(T data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Data can't be null");
-        }
-        return getHelper(data, root);
+        if (data == null)
+            throw new IllegalArgumentException("Data is null");
+
+        return getHelper(root, data);
     }
 
-    /**
-     * Helper method for get(T data)
-     *
-     * @param data the data to search for
-     * @param node the root node to inspect
-     * @return data of a node that matches passed in parameter
-     */
-    private T getHelper(T data, BSTNode<T> node) {
+    private T getHelper(BSTNode<T> node, T data) {
         if (node == null) {
             throw new NoSuchElementException("Data is not found");
         }
         int value = data.compareTo(node.getData());
         if (data.equals(node.getData())) {
             return node.getData();
-        } else if (value < 0) {
-            return getHelper(data, node.getLeft());
         } else if (value > 0) {
-            return getHelper(data, node.getRight());
+            return getHelper(node.getRight(), data);
+        }
+
+        else if (value < 0) {
+            return getHelper(node.getLeft(), data);
         }
         return null;
     }
@@ -247,24 +236,28 @@ public class BST<T extends Comparable<? super T>> {
      */
     public List<T> preorder() {
         List<T> data = new ArrayList<>();
-        preorderHelper(data, root);
+        preorderHelper(root, data);
         return data;
     }
 
     /**
-     * Helper method for preorder()
-     *
-     * @param list the list that stores the data
-     * @param node the root node of a tree
+     * preorder helper method
+     * 
+     * @param node - current node you are on
+     * @param list - the list to append to
+     * @return list of tree in preorder traversal
      */
-    private void preorderHelper(List<T> list, BSTNode<T> node) {
-        if (node == null) {
+
+    private void preorderHelper(BSTNode<T> node, List<T> list) {
+        // CLR
+        if (node == null)
             return;
-        } else {
+        else {
             list.add(node.getData());
-            preorderHelper(list, node.getLeft());
-            preorderHelper(list, node.getRight());
+            preorderHelper(node.getLeft(), list);
+            preorderHelper(node.getRight(), list);
         }
+
     }
 
     /**
@@ -274,24 +267,25 @@ public class BST<T extends Comparable<? super T>> {
      */
     public List<T> inorder() {
         List<T> data = new ArrayList<>();
-        inorderHelper(data, root);
+        inorderHelper(root, data);
         return data;
     }
 
     /**
      * Helper method for inorder()
      *
-     * @param list the list that stores the data
      * @param node the root node of a tree
+     * @param list the list that stores the data
      */
-    private void inorderHelper(List<T> list, BSTNode<T> node) {
-        if (node == null) {
+    private void inorderHelper(BSTNode<T> node, List<T> list) {
+        if (node == null)
             return;
-        } else {
-            inorderHelper(list, node.getLeft());
+        else {
+            inorderHelper(node.getLeft(), list);
             list.add(node.getData());
-            inorderHelper(list, node.getRight());
+            inorderHelper(node.getRight(), list);
         }
+
     }
 
     /**
@@ -301,24 +295,25 @@ public class BST<T extends Comparable<? super T>> {
      */
     public List<T> postorder() {
         List<T> data = new ArrayList<>();
-        postorderHelper(data, root);
+        postorderHelper(root, data);
         return data;
     }
 
     /**
      * Helper method for postorder()
      *
-     * @param list the list that stores the data
      * @param node the root node of a tree
+     * @param list the list that stores the data
      */
-    private void postorderHelper(List<T> list, BSTNode<T> node) {
-        if (node == null) {
+    private void postorderHelper(BSTNode<T> node, List<T> list) {
+        if (node == null)
             return;
-        } else {
-            postorderHelper(list, node.getLeft());
-            postorderHelper(list, node.getRight());
+        else {
+            postorderHelper(node.getLeft(), list);
+            postorderHelper(node.getRight(), list);
             list.add(node.getData());
         }
+
     }
 
     /**
@@ -338,13 +333,13 @@ public class BST<T extends Comparable<? super T>> {
         List<T> data = new ArrayList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
-            BSTNode<T> tmp = queue.poll();
-            data.add(tmp.getData());
-            if (tmp.getLeft() != null) {
-                queue.add(tmp.getLeft());
+            BSTNode<T> curr = queue.poll();
+            data.add(curr.getData());
+            if (curr.getLeft() != null) {
+                queue.offer(curr.getLeft());
             }
-            if (tmp.getRight() != null) {
-                queue.add(tmp.getRight());
+            if (curr.getRight() != null) {
+                queue.offer(curr.getRight());
             }
         }
         return data;
@@ -367,39 +362,36 @@ public class BST<T extends Comparable<? super T>> {
      * find evidence that the tree is not a BST rather than checking the rest
      * of the tree.
      *
-     * @param <T> the generic typing
+     * @param <T>      the generic typing
      * @param treeRoot the root of the binary tree to check
      * @return true if the binary tree is a BST, false otherwise
      */
-    public static <T extends Comparable<? super T>> boolean isBST(
-            BSTNode<T> treeRoot) {
-        return isBSTHelper(treeRoot);
+    public static <T extends Comparable<? super T>> boolean isBST(BSTNode<T> treeRoot) {
+        return BSTHelper(treeRoot);
     }
 
     /**
-     * Helper method for isBST(BSTNode treeRoot)
-     *
-     * @param node the root of the binary tree to check
-     * @param <T> the generic typing
-     * @return boolean value indicating if the tree is BST
+     * Helper method for isBST()
+     * 
+     * @param root - the root of the binary tree
      */
-    private static <T extends Comparable<? super T>> boolean isBSTHelper(
-            BSTNode<T> node) {
+
+    private static <T extends Comparable<? super T>> boolean BSTHelper(BSTNode<T> node) {
         if (node != null) {
             if (node.getLeft() != null) {
-                if (node.getData().compareTo(node.getLeft().getData()) < 0) {
+                if (node.getData().compareTo(node.getLeft().getData()) < 0)
                     return false;
-                } else {
-                    return isBSTHelper(node.getLeft());
-                }
+                else
+                    return BSTHelper(node.getLeft());
             }
+
             if (node.getRight() != null) {
-                if (node.getData().compareTo(node.getRight().getData()) > 0) {
+                if (node.getData().compareTo(node.getRight().getData()) > 0)
                     return false;
-                } else {
-                    return isBSTHelper(node.getRight());
-                }
+                else
+                    return BSTHelper(node.getRight());
             }
+
         }
         return true;
     }
@@ -428,15 +420,19 @@ public class BST<T extends Comparable<? super T>> {
     }
 
     /**
-     * Helper method for height()
-     *
-     * @param node the starter node to find the height from
-     * @return height of a node
+     * Helper method for the height() method
+     * 
+     * @return the height of tree
      */
+
     private int heightHelper(BSTNode<T> node) {
-        return node == null ? -1
-            : Math.max(heightHelper(node.getLeft()),
-                heightHelper(node.getRight())) + 1;
+        if (node == null)
+            return -1;
+
+        BSTNode<T> left = node.getLeft();
+        BSTNode<T> right = node.getRight();
+
+        return Math.max(heightHelper(left), heightHelper(right)) + 1;
     }
 
     /**

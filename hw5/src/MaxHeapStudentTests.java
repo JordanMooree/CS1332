@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+
 /**
-  * Simple test cases for a max heap.
-  * Write your own tests to ensure you cover all edge cases.
-  *
-  * @author CS 1332 TAs
-  * @version 1.0
-  */
+ * Simple test cases for a max heap.
+ * Write your own tests to ensure you cover all edge cases.
+ *
+ * @author CS 1332 TAs
+ * @version 1.0
+ */
 public class MaxHeapStudentTests {
 
     private static final int TIMEOUT = 200;
@@ -24,12 +25,12 @@ public class MaxHeapStudentTests {
     @Test(timeout = TIMEOUT)
     public void testBuildHeap() {
         /*
-                25                   40
-               /  \                 /  \
-              10  30     --->      35  30
-             /  \                 /  \
-            35  40               25  10
-        */
+         * 25 40
+         * / \ / \
+         * 10 30 ---> 35 30
+         * / \ / \
+         * 35 40 25 10
+         */
         ArrayList<Integer> passedIn = new ArrayList<>();
         passedIn.add(25);
         passedIn.add(10);
@@ -52,12 +53,12 @@ public class MaxHeapStudentTests {
     @Test(timeout = TIMEOUT)
     public void testAdd() {
         /*
-                89
-               /  \
-              64  43
-             /  \
-            15  17
-        */
+         * 89
+         * / \
+         * 64 43
+         * / \
+         * 15 17
+         */
         maxHeap.add(43);
         maxHeap.add(15);
         maxHeap.add(64);
@@ -77,12 +78,12 @@ public class MaxHeapStudentTests {
     @Test(timeout = TIMEOUT)
     public void testRemove() {
         /*
-                89
-               /  \                 17
-              64  43     --->      /
-             /  \                 15
-            15  17
-        */
+         * 89
+         * / \ 17
+         * 64 43 ---> /
+         * / \ 15
+         * 15 17
+         */
         maxHeap.add(43);
         maxHeap.add(15);
         maxHeap.add(64);
@@ -103,12 +104,12 @@ public class MaxHeapStudentTests {
     @Test(timeout = TIMEOUT)
     public void testMiscellaneous() {
         /*
-                89
-               /  \
-              64  43
-             /  \
-            15  17
-        */
+         * 89
+         * / \
+         * 64 43
+         * / \
+         * 15 17
+         */
         assertEquals(true, maxHeap.isEmpty());
         maxHeap.add(43);
         maxHeap.add(15);
@@ -123,6 +124,6 @@ public class MaxHeapStudentTests {
         assertEquals(true, maxHeap.isEmpty());
         assertEquals(0, maxHeap.size());
         assertArrayEquals(new Integer[MaxHeap.INITIAL_CAPACITY],
-            maxHeap.getBackingArray());
+                maxHeap.getBackingArray());
     }
 }

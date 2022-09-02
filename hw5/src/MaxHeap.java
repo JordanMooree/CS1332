@@ -48,32 +48,51 @@ public class MaxHeap<T extends Comparable<? super T>> {
      * @throws IllegalArgumentException if data or any element in data is null
      */
     public MaxHeap(ArrayList<T> data) {
-        if (data == null) {
-            throw new IllegalArgumentException("Data can't be null");
-        }
+        if (data == null)
+            throw new IllegalArgumentException("Data is null");
         backingArray = (T[]) new Comparable[data.size() * 2 + 1];
         size = data.size();
         for (int i = 0; i < size; i++) {
-            if (data.get(i) == null) {
-                throw new IllegalArgumentException("Data can't be null");
-            }
+            if (data.get(i) == null)
+                throw new IllegalArgumentException("Data is null");
             backingArray[i + 1] = data.get(i);
         }
         for (int i = size / 2; i >= 1; i--) {
-            maxHeapify(i);
+            maxifyHeap(i);
         }
     }
 
     /**
-     * Exchanges the value of specified indexes
-     *
-     * @param i the index of a value getting exchanged with j
-     * @param j the index of a value getting exchanged with i
+     * Turns the tree into a maxHeap
+     * 
+     * @param i - specified index to begin with
      */
-    private void exchange(int i, int j) {
-        T tmp = backingArray[i];
-        backingArray[i] = backingArray[j];
-        backingArray[j] = tmp;
+
+    private void maxifyHeap(int i) {
+        int sizeCount = size;
+        while (sizeCount != 1) {
+            T parent = backingArray[i], lastChild = backingArray[sizeCount], secondLast = backingArray[sizeCount - 1];
+            int val = lastChild.compareTo(secondLast);
+
+            if (val > 0 && lastChild.compareTo(parent) > 0) {
+                exchange(i, sizeCount);
+            } else if (val < 0 && secondLast.compareTo(parent) > 0) {
+                exchange(i, sizeCount - 1);
+            }
+            sizeCount--;
+        }
+
+    }
+
+    /**
+     * Exchange the indices if parent is less than one of its child(ren)
+     * 
+     * @param parent -
+     */
+    private void exchange(int parent, int child) {
+        T temp = backingArray[parent];
+        backingArray[parent] = backingArray[child];
+        backingArray[child] = temp;
     }
 
     /**
@@ -84,23 +103,25 @@ public class MaxHeap<T extends Comparable<? super T>> {
      * @param item the item to be added to the heap
      */
     public void add(T item) {
-        if (item == null) {
-            throw new IllegalArgumentException("Data can't be null");
-        }
-        if (size == backingArray.length - 1) {
-            T[] tmp = (T[]) new Comparable[backingArray.length * 2];
+        if (item == null)
+            throw new IllegalArgumentException("Item entered is not valid for data structure");
+
+        if (backingArray.length - 1 == size) {
+            T[] newArr = (T[]) new Comparable[backingArray.length * 2];
             for (int i = 0; i < backingArray.length; i++) {
-                tmp[i] = backingArray[i];
+                newArr[i] = backingArray[i];
             }
-            backingArray = tmp;
+            backingArray = newArr;
+            backingArray[++size] = item;
+
         }
         backingArray[++size] = item;
         int i = size;
-        while (i > 1
-                && backingArray[i / 2].compareTo(backingArray[i]) < 0) {
+        while (i > 1 && backingArray[i / 2].compareTo(backingArray[i]) < 0) {
             exchange(i, i / 2);
             i /= 2;
         }
+
     }
 
     /**
@@ -112,34 +133,16 @@ public class MaxHeap<T extends Comparable<? super T>> {
      * @return the removed item
      */
     public T remove() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Heap is Empty");
-        }
+        if (size == 0)
+            throw new NoSuchElementException("The heap is empty");
+
         T data = backingArray[1];
         exchange(1, size--);
-        maxHeapify(1);
         backingArray[size + 1] = null;
-        return data;
-    }
+        maxifyHeap(1);
 
-    /**
-     * Turns tree to max heap
-     *
-     * @param i the index of a value
-     */
-    private void maxHeapify(int i) {
-        while (2 * i <= size) {
-            int j = 2 * i;
-            if (j < size && backingArray[j]
-                    .compareTo(backingArray[j + 1]) < 0) {
-                j++;
-            }
-            if (!(backingArray[i].compareTo(backingArray[j]) < 0)) {
-                break;
-            }
-            exchange(i, j);
-            i = j;
-        }
+        return data;
+
     }
 
     /**
@@ -148,9 +151,8 @@ public class MaxHeap<T extends Comparable<? super T>> {
      * @return the maximum element, null if the heap is empty
      */
     public T getMax() {
-        if (size == 0) {
+        if (backingArray[1] == null)
             return null;
-        }
         return backingArray[1];
     }
 

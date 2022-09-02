@@ -62,33 +62,42 @@ public class BST<T extends Comparable<? super T>> {
         if (data == null)
             throw new IllegalArgumentException("Data is null");
         if (this.root == null) {
-            root = new BSTNode<>(data);
+            root = new BSTNode<T>(data);
             size++;
-        } else
+        } else {
             addHelper(root, data);
+        }
 
     }
 
     /**
      * Helper for adding to the BST.
      * 
-     * @param root - the parent node
+     * @param curr - the current node
      * @param data - the data to be added to the BST
      */
-    private void addHelper(BSTNode<T> node, T data) {
-        if (data.compareTo(node.getData()) > 0) {
-            if (node.getRight() == null) {
-                node.setRight(new BSTNode<>(data));
-                size++;
-            } else
-                addHelper(node.getRight(), data);
-        } else if (data.compareTo(node.getData()) < 0) {
-            if (node.getLeft() == null) {
-                node.setLeft(new BSTNode<>(data));
-                size++;
-            } else
-                addHelper(node.getLeft(), data);
+    private void addHelper(BSTNode<T> curr, T data) {
+        if (curr == null) {
+            new BSTNode<T>(data);
+            size++;
         }
+
+        else if (data.compareTo(curr.getData()) > 0) {
+            if (curr.getRight() == null) {
+                curr.setRight(new BSTNode<>(data));
+                size++;
+            } else {
+                addHelper(curr.getRight(), data);
+            }
+        } else if (data.compareTo(curr.getData()) < 0) {
+            if (curr.getLeft() == null) {
+                curr.setLeft(new BSTNode<>(data));
+                size++;
+            } else {
+                addHelper(curr.getLeft(), data);
+            }
+        }
+
     }
 
     /**
@@ -113,8 +122,7 @@ public class BST<T extends Comparable<? super T>> {
     public T remove(T data) {
         if (data == null)
             throw new IllegalArgumentException("Data is null");
-
-        BSTNode<T> removeNode = new BSTNode<>(null);
+        BSTNode<T> removeNode = new BSTNode<T>(null);
         root = removeHelper(data, root, removeNode);
         return removeNode.getData();
     }
@@ -128,25 +136,25 @@ public class BST<T extends Comparable<? super T>> {
      */
     private BSTNode<T> removeHelper(T data, BSTNode<T> node, BSTNode<T> removeNode) {
         if (node == null)
-            throw new NoSuchElementException("Data is not found");
+            throw new NoSuchElementException("Node isn't in the tree");
         else {
+
             int val = data.compareTo(node.getData());
-            if (val > 0)
-                node.setRight(removeHelper(data, node.getRight(), removeNode));
-            else if (val < 0)
+            if (val < 0)
                 node.setLeft(removeHelper(data, node.getLeft(), removeNode));
+            else if (val > 0)
+                node.setRight(removeHelper(data, node.getRight(), removeNode));
             else {
                 removeNode.setData(node.getData());
                 size--;
-                if (node.getRight() == null)
-                    return node.getLeft();
-                else if (node.getLeft() == null)
+                if (node.getLeft() == null)
                     return node.getRight();
-
+                else if (node.getRight() == null)
+                    return node.getLeft();
                 else {
-                    BSTNode<T> child = new BSTNode<>(null);
-                    node.setLeft(predecessorHelper(node.getLeft(), child));
-                    node.setData(child.getData());
+                    BSTNode<T> dummy = new BSTNode<T>(null);
+                    node.setLeft(predecessor(node.getLeft(), dummy));
+                    node.setData(dummy.getData());
                 }
             }
             return node;
@@ -161,12 +169,12 @@ public class BST<T extends Comparable<? super T>> {
      * @param child - the child of a node that will be removed
      * @return predecessor node of an element that will be removed
      */
-    private BSTNode<T> predecessorHelper(BSTNode<T> node, BSTNode<T> child) {
+    private BSTNode<T> predecessor(BSTNode<T> node, BSTNode<T> temp) {
         if (node.getRight() == null) {
-            child.setData(node.getData());
+            temp.setData(node.getData());
             return node.getLeft();
         }
-        node.setRight(predecessorHelper(node.getRight(), child));
+        node.setRight(predecessor(node.getRight(), temp));
         return node;
     }
 

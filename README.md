@@ -8,7 +8,7 @@
 
 - [x] **HW 4:** Binary Search Trees
 
-- [ ] **HW 5:** MaxHeaps
+- [x] **HW 5:** MaxHeaps
 
 - [ ] **HW 6:** HashMaps
 

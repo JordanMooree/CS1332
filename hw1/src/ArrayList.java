@@ -45,41 +45,33 @@ public class ArrayList<T> {
      */
     public void addAtIndex(int index, T data) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("The index should be"
-                    + " in the interval between 0 and size");
-        } else if (data == null) {
-            throw new IllegalArgumentException("Can't add data with "
-                    + "null value");
-        } else {
-            if (size + 1 > backingArray.length) {
-                T[] tmpArray = backingArray;
-                backingArray = (T[]) new Object[backingArray.length * 2];
-                for (int i = 0; i < tmpArray.length; i++) {
-                    backingArray[i] = tmpArray[i];
-                }
-            }
-            if (index == 0) {
-                for (int i = size; i > 0; i--) {
-                    backingArray[i] = backingArray[i - 1];
-                }
-                backingArray[0] = data;
-            } else if (index == size) {
-                backingArray[size] = data;
-            } else {
-                for (int i = size; i > index; i--) {
-                    backingArray[i] = backingArray[i - 1];
-                }
-                backingArray[index] = data;
-            }
-            size++;
+            throw new IndexOutOfBoundsException(String.format("Index %s is out of bounds", index));
         }
+        if (size == backingArray.length) {
+            T[] newArray = (T[]) new Object[size * 2];
+            for (int i = 0; i < index - 1; i++) {
+                newArray[i] = backingArray[i];
+            }
+            newArray[index] = data;
+            for (int i = index; i < size - 1; i++) {
+                newArray[i + 1] = backingArray[i];
+            }
+            backingArray = newArray;
+        }
+        else {
+            for (int i = size; i >= index + 1; i--) {
+                backingArray[i] = backingArray[i - 1];
+            }
+            backingArray[index] = data;
+        }
+        size++;
     }
 
     /**
      * Adds the given data to the front of your array list.
      *
      * Remember that this add may require elements to be shifted.
-     * 
+     *
      * Must be O(n).
      *
      * @param data the data to add to the list
@@ -106,7 +98,7 @@ public class ArrayList<T> {
      *
      * Remember that this remove may require elements to be shifted.
      *
-     * This method should be O(1) for index {@code size - 1} and O(n) in 
+     * This method should be O(1) for index {@code size - 1} and O(n) in
      * all other cases.
      *
      * @param index the index of the element
@@ -116,21 +108,17 @@ public class ArrayList<T> {
      */
     public T removeAtIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("The index should be"
-                    + " in the interval between 0 and size");
+            throw new IndexOutOfBoundsException(String.format("The index should be"
+                    + " in the interval between 0 and %s", size));
         } else {
-            if (index == size - 1) {
-                T tmp = backingArray[--size];
-                backingArray[size] = null;
-                return tmp;
-            } else {
-                T tmp = backingArray[index];
-                for (int i = index; i < size - 1; i++) {
-                    backingArray[i] = backingArray[i + 1];
-                }
-                backingArray[--size] = null;
-                return tmp;
+            final T data = backingArray[index];
+            backingArray[index] = null;
+            for (int i = index; i < size - 1; i++) {
+                backingArray[i] = backingArray[i + 1];
             }
+            backingArray[size - 1] = null;
+            size--;
+            return data;
         }
     }
 
@@ -149,7 +137,7 @@ public class ArrayList<T> {
 
     /**
      * Removes and returns the last element in the list.
-     * 
+     *
      * Must be O(1).
      *
      * @return the data from the back of the list or null if the list is empty
@@ -207,7 +195,7 @@ public class ArrayList<T> {
     }
 
     /**
-     * Returns a boolean value representing whether or not the list is empty.
+     * Returns a boolean value representing whether the list is empty.
      *
      * Must be O(1).
      *

@@ -1,6 +1,6 @@
 # CS1332
 
-- [ ] **HW 1:** ArrayList
+- [x] **HW 1:** ArrayList
 
 - [ ] **HW 2:** Circular Singly-Linked List
 
